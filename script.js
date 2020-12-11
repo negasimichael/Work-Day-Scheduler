@@ -1,24 +1,24 @@
 $(document).ready(function () {
     myDateTime();
-    changeDate();
-    myStorage();
-    saveButtons();
+   // changeDate();
+//myStorage();
+   // saveButtons();
 });
 
 function myDateTime() {
     // today time format
     var today = moment().format('dddd, ');
-    var date = moment().format('9,');
+    var date = moment().format(' ll, ');
     //time interval incrementing
     setInterval(function () {
         var time = moment();
         $('#currentDay').text(today + " " + date + " " + time.format('hh:mm:ss a'));
-    }, 100);
+    }, 1000);
 }
 
 function changeDate() {
-    var currentTime = Number(moment().hour());
-    $('#myform').find(function () {
+    var currentTime = number(moment().hour());
+    $('.form-control').each(function () {
         var eventTime = parseInt($(this).val('text'));
         if (currentTime > eventTime) {
             $(this).addClass('past')
@@ -45,6 +45,7 @@ function saveButtons() {
     const saveBtn = $(".saveBtn")
     saveBtn.each(function(index){
         // set attribute called data-hour to ??
+
         $(this).attr('data-hour',index + 9)
     })
 
@@ -53,13 +54,16 @@ function saveButtons() {
         var hour = e.target.dataset.hour
 
         localStorage.setItem(hour, value)
+        
 
     });
 
 }
 
 // write a function that iterates over our text areas using jquery .each(index) 
-//$( this).value(localstorage.getItem())
+
+// $( this).value(localstorage.getItem())
+ 
 
 $("#clearDay").on("click", function () {
     if (localStorage.length < 9) {
