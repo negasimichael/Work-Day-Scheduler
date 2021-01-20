@@ -1,8 +1,8 @@
 $(document).ready(function () {
     myDateTime();
-   // changeDate();
-//myStorage();
-   // saveButtons();
+   changeDate();
+myStorage();
+   saveButtons();
 });
 
 function myDateTime() {
@@ -17,61 +17,62 @@ function myDateTime() {
 }
 
 function changeDate() {
-    var currentTime = number(moment().hour());
+    var currentTime = Number(moment().hour());
     $('.form-control').each(function () {
-        var eventTime = parseInt($(this).val('text'));
+        var eventTime = parseInt($(this).attr('id'));
+        console.log(currentTime,eventTime)
         if (currentTime > eventTime) {
             $(this).addClass('past')
         } else if (currentTime < eventTime) {
             $(this).addClass("future");
         } else {
-            $(this).addClass("prsent");
+            $(this).addClass("present");
         }
     });
-
 }
 
 function myStorage() {
-    for (let i = 0; localStorage.length; i++) {
-        var element = localStorage.key[i];
-    } if (element) {
-        $('# + element').val(JSON.parse(localStorage.key(element)))
-
+    //creating var called element local storage for every hours input
+    for (let i = 0; i < localStorage.length; i++) {
+        const element = localStorage.key(i);
+        //console.log(element);
+        if(element){
+            // parse that input as element and assign it the that id 
+            $('#' + element).val(localStorage.getItem(element));
+        }
     }
-
-}
+} 
 
 function saveButtons() {
     const saveBtn = $(".saveBtn")
     saveBtn.each(function(index){
-        // set attribute called data-hour to ??
-
+        // set attribute called data-hour. 
         $(this).attr('data-hour',index + 9)
     })
-
     saveBtn.on("click", function (e) {
         var value = $(this).siblings(".form-control").val()
         var hour = e.target.dataset.hour
-
         localStorage.setItem(hour, value)
-        
-
     });
-
 }
 
-// write a function that iterates over our text areas using jquery .each(index) 
-
-// $( this).value(localstorage.getItem())
- 
-
 $("#clearDay").on("click", function () {
+    // clear day event if confirming yes.
     if (localStorage.length < 9) {
-        var clear = ("press Ok to clear daily events")
+        var clear = confirm ("Press OK if you want to clear today's events?")
         if (clear) {
+            for (let i = 9; i <= 17; i++) {
+            
+                    $('#' + i).val('');
+                
+            }
+                
+            
+            
             localStorage.clear();
         }
 
     }
 
 })
+
